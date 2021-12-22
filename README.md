@@ -8,6 +8,10 @@ In simulation there are 4 drones in a warehouse that randomly wander around and 
 
 After all boxes are collected - all drones go back to their pads.  
   
+# Preview video  
+
+[![Robotų programavimo pagrindų projektas](https://img.youtube.com/vi/a0o0qgCig-k/0.jpg)](https://www.youtube.com/watch?v=a0o0qgCig-k)
+  
 # Authors 
   
 Scripts made by Mantas Pabalys.  
