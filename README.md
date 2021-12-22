@@ -10,7 +10,8 @@ After all boxes are collected - all drones go back to their pads.
   
 # Preview video  
 
-[![Robotų programavimo pagrindų projektas](https://img.youtube.com/vi/a0o0qgCig-k/0.jpg)](https://www.youtube.com/watch?v=a0o0qgCig-k)
+[![Robotų programavimo pagrindų projektas](https://i.imgur.com/m37gPon.png)](https://www.youtube.com/watch?v=a0o0qgCig-k)  
+[Watch on youtube](https://www.youtube.com/watch?v=a0o0qgCig-k)
   
 # Authors 
   
