@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [Serializable]
@@ -20,18 +17,18 @@ public class HeavyBoxOperation
         IsActive = false;
         AttachedDronesCount = 0;
     }
-
+    
     public void AddHelperDrone(Drone drone)
     {
         if(!_helpers.Contains(drone))
             _helpers.Add(drone);
     }
-
+    
     public List<Drone> GetHelperDrones()
     {
         return _helpers;
     }
-
+    
     public void Start(Drone head, Box box)
     {
         Head = head;
@@ -40,7 +37,7 @@ public class HeavyBoxOperation
         Box = box;
         AttachedDronesCount = 0;
     }
-
+    
     public void Reset()
     {
         Head.IsHelping = false;
@@ -54,12 +51,12 @@ public class HeavyBoxOperation
         Box = null;
         AttachedDronesCount = 0;
     }
-
+    
     public void SetDroneAttached()
     {
         AttachedDronesCount++;
     }
-
+    
     public Vector3 GetTravelTarget(Drone drone)
     {
         int index = 0;

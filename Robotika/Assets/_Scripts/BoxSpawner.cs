@@ -10,7 +10,7 @@ public class BoxSpawner : MonoBehaviour
     public int LightCount = 5;
 
     public LayerMask GroundLayer;
-    public Collider collider;
+    public Collider SpawnArea;
     
     void Start()
     {
@@ -41,7 +41,7 @@ public class BoxSpawner : MonoBehaviour
 
     private Vector3 RandomCoords(float y = 0)
     {
-        var bounds = collider.bounds;
+        var bounds = SpawnArea.bounds;
         float scaleX = bounds.size.x / 2;
         float scaleZ = bounds.size.z / 2;
         Vector3 center = transform.position;

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Drone : MonoBehaviour
 {
-    [SerializeField]
     private DroneControl _control;
     public float Speed = 3;
     public float RotationSpeed = 5;
@@ -19,8 +18,6 @@ public class Drone : MonoBehaviour
     public bool SentHome;
     public bool IsHelping;
 
-    public string State;
-
     void Awake()
     {
         _startingPad = transform.position;
@@ -31,8 +28,7 @@ public class Drone : MonoBehaviour
     
     void Update()
     {
-        State = _control.ToString();
-        _control.MoveTowardsTarget();
+        _control.Control();
         _control.RotateTowardsTarget();
     }
 

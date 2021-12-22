@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RoamState : DroneControl
 {
@@ -11,17 +11,17 @@ public class RoamState : DroneControl
         SetTarget(RandomCoords());
     }
 
-    public override void MoveTowardsTarget()
+    public override void Control()
     {
         if(Drone.SentHome)
             Drone.FlyHome();
+
         IsBoxBelow();
         if (IsTargetReached() || IsObstacleAhead())
         {
             Target = RandomCoords();
         }
-        var directionVector = Vector3.MoveTowards(Drone.transform.position, Target, Drone.Speed * Time.deltaTime);
-        Drone.transform.position = directionVector;
+        MoveTowardsTarget();
     }
 
     private Vector3 RandomCoords()
@@ -36,7 +36,7 @@ public class RoamState : DroneControl
 
         return new Vector3(x, Altitude, z);
     }
-
+    
     Vector3 GetBoxCoordinates(Transform boxTransform)
     {
         Vector3 boxCenter = boxTransform.position;
@@ -47,13 +47,12 @@ public class RoamState : DroneControl
 
         return new Vector3(boxCenter.x, y, boxCenter.z);
     }
-
+    
     private bool IsBoxBelow()
     {
         if(Drone.ConeDetector.IsDetected)
         {
-            var collider = Drone.ConeDetector.GetCollider();
-            var box = collider.transform.GetComponent<Box>();
+            var box = GetBox();
             if (box != null && !box.IsNoticed)
             {
                 if (box.BoxType == BoxType.Heavy)
@@ -65,7 +64,7 @@ public class RoamState : DroneControl
                 }
                 var boxLandingPosition = box.BoxType == BoxType.Heavy
                     ? box.GetHook().DronePosition.position
-                    : GetBoxCoordinates(collider.transform);
+                    : GetBoxCoordinates(box.transform);
 
                 box.IsNoticed = true;
                 Drone.SetControls(new TravelingState(Drone, boxLandingPosition));

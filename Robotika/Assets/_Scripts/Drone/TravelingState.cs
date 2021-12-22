@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TravelingState : DroneControl
 {
     private readonly bool _isDelivering;
     private readonly float _altitude;
     private readonly Vector3 _target;
-    private bool _isTravelingHome;
+    private readonly bool _isTravelingHome;
 
     public TravelingState(Drone drone, Vector3 target, bool isTravelingHome, bool isDelivering = false) : base(drone)
     {
@@ -30,12 +30,10 @@ public class TravelingState : DroneControl
         SetTarget(_isDelivering ? new Vector3(target.x, _altitude, target.z) : target);
     }
 
-    public override void MoveTowardsTarget()
+    public override void Control()
     {
         if (IsTargetReached())
         {
-            BoxType boxType = GetBoxType();
-
             if (_isDelivering)
             {
                 Drone.SetControls(new DropoffState(Drone, _target));
@@ -44,6 +42,7 @@ public class TravelingState : DroneControl
 
             if (!_isTravelingHome)
             {
+                BoxType boxType = GetBoxType();
                 switch (boxType)
                 {
                     case BoxType.Light:
@@ -54,27 +53,16 @@ public class TravelingState : DroneControl
                         break;
                     case BoxType.None:
                         Drone.SetControls(new WaitingState(Drone));
-                        //Drone.SetControls(new DropoffState(Drone, _target));
                         break;
                 }
             }
         }
-        var directionVector = Vector3.MoveTowards(Drone.transform.position, Target, Drone.Speed * Time.deltaTime);
-        Drone.transform.position = directionVector;
+        MoveTowardsTarget();
     }
-
+    
     private BoxType GetBoxType()
     {
-        if((Physics.Raycast(Drone.transform.position, Drone.transform.TransformDirection(Vector3.down), out var hit,
-            5, Drone.BoxLayer)))
-        {
-            var box = hit.transform.GetComponent<Box>();
-            if (box != null)
-            {
-                return box.BoxType;
-            }
-        }
-
-        return BoxType.None;
+        var box = GetBox();
+        return box != null ? box.BoxType : BoxType.None;
     }
 }

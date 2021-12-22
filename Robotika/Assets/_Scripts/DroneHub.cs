@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DroneHub : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class DroneHub : MonoBehaviour
         HeavyBoxOperation = new HeavyBoxOperation();
         Init();
     }
-
+    
     private void Init()
     {
         foreach (var drone in Drones)
@@ -27,14 +27,14 @@ public class DroneHub : MonoBehaviour
             drone.SetDroneHub(this);
         }
     }
-
+    
     public Vector3 GetLightLandingCoordinates()
     {
         if(LightLandingsOccupied >= LightLandingZones.Length)
             return Vector3.zero;
         return LightLandingZones[LightLandingsOccupied++].position;
     }
-
+    
     public Vector3 GetHeavyLandingCoordinates()
     {
         if (HeavyLandingsOccupied >= HeavyLandingZone.Length)
@@ -45,7 +45,7 @@ public class DroneHub : MonoBehaviour
     public void RequestHelpForHeavyBox(Drone sender, Box box)
     {
         if(HeavyBoxOperation.IsActive)
-            sender.SetControls(new RoamState(sender));//send to current operation
+            sender.SetControls(new RoamState(sender));
 
         HeavyBoxOperation.Start(sender, box);
 

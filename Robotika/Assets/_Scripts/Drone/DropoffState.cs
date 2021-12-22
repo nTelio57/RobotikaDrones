@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DropoffState : DroneControl
 {
@@ -13,7 +13,7 @@ public class DropoffState : DroneControl
         _altitude = 8;
         SetTarget(target);
     }
-    public override void MoveTowardsTarget()
+    public override void Control()
     {
         if (IsTargetReached())
         {
@@ -32,23 +32,22 @@ public class DropoffState : DroneControl
                     Drone.SetAsHelper();
             }
         }
-        Move();
+        MoveTowardsTarget();
     }
-
+    
     private bool Deattach()
     {
-        var boxObject = GetBoxBelow();
-        var box = boxObject.transform.GetComponent<Box>();
+        var box = GetBox();
         if (box != null)
         {
             if (box.BoxType == BoxType.Heavy)
-                return HeavyBoxDeattach(boxObject.transform);
-            return LightBoxDeattach(boxObject.transform);
+                return HeavyBoxDeattach(box.transform);
+            return LightBoxDeattach(box.transform);
         }
 
         return false;
     }
-
+    
     private bool LightBoxDeattach(Transform transform)
     {
         transform.parent = null;
@@ -67,15 +66,8 @@ public class DropoffState : DroneControl
                 drone.SetControls(new RoamState(drone));
             }
         }
-
         Drone.DroneHub.HeavyBoxOperation.Reset();
 
         return true;
-    }
-
-    private void Move()
-    {
-        var directionVector = Vector3.MoveTowards(Drone.transform.position, Target, Drone.Speed * Time.deltaTime);
-        Drone.transform.position = directionVector;
     }
 }

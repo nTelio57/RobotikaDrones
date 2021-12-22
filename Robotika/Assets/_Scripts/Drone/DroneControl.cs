@@ -1,11 +1,9 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-[Serializable]
 public abstract class DroneControl
 {
     protected Drone Drone;
-    [SerializeField]
     protected Vector3 Target;
     protected float Speed;
     protected float Altitude;
@@ -42,10 +40,21 @@ public abstract class DroneControl
             Drone.DroneDetectDistance, Drone.Layer));
     }
 
-    protected Collider GetBoxBelow()
+    protected Box GetBox()
     {
-        return Drone.ConeDetector.GetCollider();
+        var collider = Drone.ConeDetector.GetCollider();
+        var box = collider.transform.GetComponent<Box>();
+        if (box != null)
+            return box;
+
+        return null;
     }
 
-    public abstract void MoveTowardsTarget();
+    protected void MoveTowardsTarget()
+    {
+        var directionVector = Vector3.MoveTowards(Drone.transform.position, Target, Drone.Speed * Time.deltaTime);
+        Drone.transform.position = directionVector;
+    }
+
+    public abstract void Control();
 }

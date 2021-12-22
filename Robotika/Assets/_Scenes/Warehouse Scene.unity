@@ -321,7 +321,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  collider: {fileID: 679480993}
+  SpawnArea: {fileID: 679480993}
 --- !u!4 &224475343
 Transform:
   m_ObjectHideFlags: 0

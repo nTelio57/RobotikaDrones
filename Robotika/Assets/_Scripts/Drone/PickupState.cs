@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PickupState : DroneControl
 {
@@ -11,7 +11,7 @@ public class PickupState : DroneControl
         _isAttached = false;
     }
 
-    public override void MoveTowardsTarget()
+    public override void Control()
     {
         if (!_isAttached && Attach())
         {
@@ -26,32 +26,30 @@ public class PickupState : DroneControl
             {
                 Drone.SetControls(new TravelingState(Drone, _target, true));
             }
-            Ascend();
+            MoveTowardsTarget();
         }
     }
-
+    
     private bool Attach()
     {
-        var boxObject = GetBoxBelow();
-        var box = boxObject.transform.GetComponent<Box>();
+        var box = GetBox();
         if (box != null)
         {
             if(box.BoxType == BoxType.Heavy)
-                return HeavyAttach(boxObject.transform);
-            return LightAttach(boxObject.transform);
+                return HeavyAttach(box.transform);
+            return LightAttach(box.transform);
         }
         
-
         return false;
     }
-
+    
     private bool LightAttach(Transform transform)
     {
         _target = Drone.DroneHub.GetLightLandingCoordinates();
         transform.parent = Drone.transform;
         return true;
     }
-
+    
     private bool HeavyAttach(Transform transform)
     {
         _target = Drone.DroneHub.GetHeavyLandingCoordinates();
@@ -61,11 +59,5 @@ public class PickupState : DroneControl
             helperDrone.transform.parent = Drone.transform;
         }
         return true;
-    }
-
-    private void Ascend()
-    {
-        var directionVector = Vector3.MoveTowards(Drone.transform.position, Target, Drone.Speed * Time.deltaTime);
-        Drone.transform.position = directionVector;
     }
 }

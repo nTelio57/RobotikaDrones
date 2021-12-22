@@ -18,7 +18,7 @@ public class Box : MonoBehaviour
     {
         IsNoticed = false;
     }
-
+    
     public Hook GetHook()
     {
         var hook = Hooks.First(x => x.IsTaken == false);
